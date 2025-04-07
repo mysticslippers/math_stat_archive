@@ -1,0 +1,247 @@
+\documentclass[12pt]{article}
+
+\usepackage{cmap}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{bm}
+\usepackage{diagbox}
+\usepackage[left=20mm,right=10mm,top=20mm,bottom=20mm,bindingoffset=2mm]{geometry}
+\usepackage{indentfirst}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\CC}{\mathbb{C}}
+\DeclareMathOperator{\PP}{\mathrm{P}}
+\DeclareMathOperator{\Expec}{\mathrm{E}}
+\DeclareMathOperator{\Var}{\mathrm{Var}}
+\DeclareMathOperator{\Cov}{\mathrm{Cov}}
+\DeclareMathOperator{\asConv}{\xrightarrow{a.s.}}
+\DeclareMathOperator{\LpConv}{\xrightarrow{Lp}}
+\DeclareMathOperator{\pConv}{\xrightarrow{p}}
+\DeclareMathOperator{\dConv}{\xrightarrow{d}}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=blue,
+	urlcolor=blue
+}
+
+\addto\captionsrussian{\renewcommand{\refname}{Список использованных источников}}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\begin{center}
+			\large{Федеральное государственное автономное образовательное учреждение высшего образования <<Национальный исследовательский университет ИТМО>>}
+		\end{center}
+		
+		\vspace{15em}
+		
+		\begin{center}
+			\huge{\textbf{Расчётно-графическая работа №2}} \\
+			\large{По дисциплине <<Математическая статистика>>}
+		\end{center}
+		
+		\vspace{5em}
+		
+		\begin{flushright}
+			\Large{\textbf{Михайлов Дмитрий Андреевич}} \\
+			\Large{P3206} \\
+			\Large{368530} \\
+			\Large{\textbf{Медведев Владислав Александрович}} \\
+			\Large{P3206} \\
+			\Large{368508}
+		\end{flushright}
+		
+		\vspace{10em}
+		
+		\begin{center}
+			Санкт-Петербург \\
+			2025 год
+		\end{center}
+	\end{titlepage}
+	
+	\tableofcontents
+	\newpage
+	
+	\addcontentsline{toc}{section}{Задача №1}
+	\section*{Задача №1}
+	
+	\textbf{Условие задачи.}
+	
+	Для выполнения первого упражнения будут весьма полезны знания об определении распределения хи-квадрат, Стьюдента и Фишера. Плюс теорема Фишера для выборок из нормального закона.
+	
+	Предъявите доверительный интервал уровня $1 - \alpha$ для указанного параметра при данных предположениях (\textbf{с математическими обоснованиями}). Сгенерируйте 2 выборки объёма 25 и посчитайте доверительный интервал. Повторить 1000 раз. Посчитайте, сколько раз 95-процентный доверительный интервал покрывает реальное значение параметра. То же самое сделайте для объёма выборки 10000. Как изменился результат? Как объяснить? Что изменяется при росте объёмов выборки?
+	
+	Задача представлена в 4 вариантах. Везде даны две независимые выборки $X_1, X_2$ из нормальных распределений $N(\mu_1, \sigma^2_1)$, $N(\mu_2, \sigma^2_2)$ объёмов $n_1$, $n_2$ соответственно. Сначала указывается оцениваемая функция, потом данные об остальных параметрах, затем параметры эксперимента и подсказки.
+	
+	\begin{enumerate}
+		\centering
+		\setcounter{enumi}{3}
+		\item $ \tau = \sigma_1^2 / \sigma_2^2
+		$ $\mu_1, \mu_2;$ известны;
+		$\mu_1 = 0, \mu_2 = 0, \sigma_1^2 = 2, \sigma_2^2 = 1$; воспользуйтесь функцией  
+		$
+		\frac{n_2 \sum\limits_{i=1}^{n} (X_{1, i} - \mu_1)^2}{n_1 \sum\limits_{j=1}^{m} (X_{2,i} - \mu_2)^2} \cdot \frac{\sigma_2^2}{\sigma_1^2}
+		$
+	\end{enumerate}
+	\vspace{1em}
+	
+	\textbf{Решение.}
+	
+	Исходя из условия, что $\sigma_1^2 = 2$, $\sigma_2^2 = 1$, можно понять, что оцениваемый параметр: $\tau = \frac{\sigma_1^2}{\sigma_2^2} = 2$. При этом $\mu_1 = 0, \mu_2 = 0$. Воспользуемся функцией и найдём статистику для оценки $\tau$:
+	\begin{gather*}
+		T = \frac{n_2 \sum_{i=1}^{n_1} X_{1,i}^2}{n_1 \sum_{j=1}^{n_2} X_{2,j}^2} \cdot \frac{\sigma_2^2}{\sigma_1^2}
+	\end{gather*}
+	
+	Так как $\sum_{i=1}^{n_1} X_{1,i}^2 \sim \sigma_1^2 \cdot \chi^2(n_1)$, $\sum_{j=1}^{n_2} X_{2,j}^2 \sim \sigma_2^2 \cdot \chi^2(n_2)$, в конечном итоге получаем, что статистика для оценки $\tau$:
+	\begin{gather*}
+		T = \frac{n_2 \cdot \sigma_1^2 \cdot \chi^2(n_1)}{n_1 \cdot \sigma_2^2 \cdot \chi^2(n_2)} \cdot \frac{\sigma_2^2}{\sigma_1^2}
+	\end{gather*}
+	
+	Упростив выражение, получаем:
+	\begin{gather*}
+		T = \frac{n_2 \chi^2(n_1)}{n_1 \chi^2(n_2)}
+	\end{gather*}
+	
+	Полученная формула сводится к функции распределения Фишера со степенями свободы $n_1$, $n_2$:
+	\begin{gather*}
+		F(n_1, n_2) \sim \frac{n_2 \chi^2(n_1)}{n_1 \chi^2(n_2)}
+	\end{gather*}
+	
+	После этого распишем доверительный интервал уровня $1 - \alpha$ для функции распределения:
+	\begin{gather*}
+		P\left( F_{\alpha/2}(n_1, n_2) \leq \frac{n_2 \chi^2(n_1)}{n_1 \chi^2(n_2)} \leq F_{1 - \alpha/2}(n_1, n_2) \right) = 1 - \alpha
+	\end{gather*}
+	
+	Подставим выведенную формулу для статистики и получим интервал для параметра $\tau$:
+	\begin{gather*}
+		\left[ \frac{\sum X_{2,j}^2 / n_2}{\sum X_{1,i}^2 / n_1} \cdot F_{\alpha/2}(n_2, n_1), \frac{\sum X_{2,j}^2 / n_2}{\sum X_{1,i}^2 / n_1} \cdot F_{1 - \alpha/2}(n_2, n_1) \right].
+	\end{gather*}
+	
+	После генерации выборок малого и большого объёма вычислим $\hat{\tau}$ с истинностью 2 и построим доверительный интервал с $\alpha = 0.05$. Далее приведён код для этого эксперимента.
+	
+	\addcontentsline{toc}{section}{Задача №2}
+	\section*{Задача №2}
+	
+	\textbf{Условие задачи.}
+	
+	В данном упражнении для построения асимптотического доверительного интервала весьма полезным будет применение ЦПТ к самой выборке или некоторому преобразованию выборки (например, к $X^2$).
+	
+	Постройте асимптотический доверительный интервал уровня $1 - \alpha$ для указанного параметра. Проведите эксперимент по схеме, аналогичной первой задаче.
+	
+	Задача представлена в 5 вариантах. Сначала указывается класс распределений (однопараметрический), затем параметры эксперимента и подсказки.
+	\begin{enumerate}
+		\centering
+		\setcounter{enumi}{2}
+		\item $U[-\theta, \theta]$; $\theta^2$; $\theta = 5$
+	\end{enumerate}
+	\vspace{1em}
+	
+	\textbf{Решение.}
+	
+	Рассмотрим случайную величину $ X \sim U[-\theta, \theta] $, где $ \theta > 0 $. Это симметричное равномерное распределение, у которого:
+	\begin{enumerate}
+		\item $\mathbb{E}[X] = 0$
+		\item $\mathbb{D}[X] = \frac{\theta^2}{3}$
+	\end{enumerate}
+	
+	Переходя к оцениванию параметра, из формулы дисперсии следует:
+	\begin{gather*}
+		\theta^2 = 3 \cdot \mathbb{D}[X]
+	\end{gather*}
+	
+	Поскольку в реальности у нас есть только выборка $ X_1, X_2, \dots, X_n $, оценим дисперсию с помощью \textbf{выборочной дисперсии}:
+	\begin{gather*}
+		S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2
+	\end{gather*}
+	
+	Тогда оценка параметра:
+	\begin{gather*}
+		\widehat{\theta^2} = 3 \cdot S^2 \\
+		\widehat{\theta^2} = 3 \cdot \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2
+	\end{gather*}
+	
+	Переходя к оцениванию асимптотического доверительного интервала, Выборочная дисперсия $ S^2 $ — \textbf{асимптотически нормальная} оценка, следовательно, с увеличением размера выборки можно применить \textbf{центральную предельную теорему} к $ \widehat{\theta^2} $:
+	\begin{gather*}
+		\sqrt{n} \cdot \left( \widehat{\theta^2} - \theta^2 \right) \overset{d}{\longrightarrow} \mathcal{N}\left(0, \sigma^2\right),
+	\end{gather*}
+	где $ \sigma^2 = \mathbb{D}[\widehat{\theta^2}] = \mathbb{D}[3S^2] = 9 \cdot \mathbb{D}[S^2] $
+	\vspace{1em}
+	
+	Найдем $ \mathbb{D}[S^2] $:
+	\begin{gather*}
+		\mathbb{D}[S^2] = \frac{1}{n} \left( \mu_4 - \sigma^4 \right),
+	\end{gather*}
+	где $ \mu_4 = \mathbb{E}\left[(X - \mathbb{E}[X])^4\right] = \frac{\theta^4}{5} $, $ \sigma^2 = \mathbb{D}[X] = \frac{\theta^2}{3} {\longrightarrow} \sigma^4 = \frac{\theta^4}{9}$
+	
+	Подставим:
+	\begin{gather*}
+		\mathbb{D}[S^2] = \frac{1}{n} \left( \frac{\theta^4}{5} - \frac{\theta^4}{9} \right) = \frac{\theta^4}{n} \left( \frac{4}{45} \right)
+	\end{gather*}
+	
+	Значит:
+	\begin{gather*}
+		\mathbb{D}[\widehat{\theta^2}] = 9 \cdot \mathbb{D}[S^2] = 9 \cdot \frac{\theta^4}{n} \cdot \frac{4}{45} = \frac{4 \theta^4}{5n}
+	\end{gather*}
+	
+	Переходя к применению центральной предельной теоремы (ЦПТ), для оценки параметра $ \theta^2 = 3 \cdot \mathbb{D}[X] $, мы используем выборочную дисперсию $ S^2 $, а значит, рассматриваем оценку:
+	\begin{gather*}
+		\widehat{\theta^2} = 3S^2 \\
+		\sqrt{n} \cdot (\widehat{\theta^2} - \theta^2) = \sqrt{n}(3S^2 - 3\sigma^2) \xrightarrow{d} \mathcal{N}(0, 9 \cdot \mathbb{D}[S^2]) \\
+		\sqrt{n} \cdot \left(\widehat{\theta^2} - \theta^2 \right) \overset{d}{\longrightarrow} \mathcal{N}\left(0, \frac{4\theta^4}{5}\right)
+	\end{gather*}
+	
+	Из этой сходимости вытекает доверительный интервал, если $ \sqrt{n}(\widehat{\theta^2} - \theta^2) $ приближённо распределена нормально, то мы можем записать:
+	\begin{gather*}
+		\frac{\widehat{\theta^2} - \theta^2}{\sqrt{9 \cdot \mathbb{D}[S^2] / n}} \sim \mathcal{N}(0, 1) \quad \text{(приближённо)} \\
+		P\left( -z_{1 - \alpha/2} < \frac{\widehat{\theta^2} - \theta^2}{\sqrt{9 \cdot \mathbb{D}[S^2] / n}} < z_{1 - \alpha/2} \right) \approx 1 - \alpha \\
+		P\left( \widehat{\theta^2} - z_{1 - \alpha/2} \cdot \frac{\sqrt{9 \cdot \mathbb{D}[S^2]}}{\sqrt{n}} < \theta^2 < \widehat{\theta^2} + z_{1 - \alpha/2} \cdot \frac{\sqrt{9 \cdot \mathbb{D}[S^2]}}{\sqrt{n}} \right) \approx 1 - \alpha \\
+		\theta^2 \in \left[ \widehat{\theta^2} \pm z_{1 - \alpha/2} \cdot \frac{\sqrt{9 \cdot \mathbb{D}[S^2]}}{\sqrt{n}} \right]
+	\end{gather*}
+	
+	Далее написан код на языке Python.
+	\newpage
+	
+	\textbf{Выводы}
+	\begin{enumerate}
+		\centering
+		\item При очень маленьком объеме выборки (n=10) интервалы значительно шире, что сопровождается большим разбросом оценок. Уровень доверия составил 78.40\%, что заметно ниже теоретического 95\%. Это подчёркивает, как малый размер выборки снижает точность оценок.
+		\item При большом объеме выборки (n=100000) интервалы становятся существенно уже, а уровень доверия 94.20\%, близкий к теоретическому значению 95\%, демонстрирует, как с ростом выборки качество оценок улучшается и доверительные интервалы сужаются.
+		\item Результаты подтверждают, что с увеличением размера выборки качество статистических оценок значительно улучшается, и интервалы становятся уже, что согласуется с предсказаниями центральной предельной теоремы.
+	\end{enumerate}
+	\newpage
+	
+	\addcontentsline{toc}{section}{Приложения}
+	\section*{Приложения}
+	
+	\subsection*{Задача №1}
+	
+	Ссылка на исходник с кодом программы, решающей эту задачу на языке Python. \cite{TaskNumber1}
+	
+	\subsection*{Задача №2}
+	Ссылка на исходник с кодом программы, решающей эту задачу на языке Python. \cite{TaskNumber2}
+	\newpage
+	
+	\addcontentsline{toc}{section}{Список использованных источников}
+	\begin{thebibliography}{99}
+		\bibitem{TaskNumber1}
+		Задача №1. \textit{URL}: \href{https://colab.research.google.com/drive/1Yya--asFdBdXNXN8nocj5L_8NURvFw2t}{Исходник с кодом, решающий задачу №1.}
+		
+		\bibitem{TaskNumber2}
+		Задача №2. \textit{URL}:
+		\href{https://colab.research.google.com/drive/17D-Thp-Hk-snJIjJTAhnJ815z9UcvgTz#scrollTo=X78LRfPuD_Gj}{Исходник с кодом, решающий задачу №2.}
+	\end{thebibliography}
+	
+\end{document}
