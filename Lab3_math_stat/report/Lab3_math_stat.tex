@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+
+\usepackage{cmap}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{bm}
+\usepackage{diagbox}
+\usepackage[left=20mm,right=10mm,top=20mm,bottom=20mm,bindingoffset=2mm]{geometry}
+\usepackage{indentfirst}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\CC}{\mathbb{C}}
+\DeclareMathOperator{\PP}{\mathrm{P}}
+\DeclareMathOperator{\Expec}{\mathrm{E}}
+\DeclareMathOperator{\Var}{\mathrm{Var}}
+\DeclareMathOperator{\Cov}{\mathrm{Cov}}
+\DeclareMathOperator{\asConv}{\xrightarrow{a.s.}}
+\DeclareMathOperator{\LpConv}{\xrightarrow{Lp}}
+\DeclareMathOperator{\pConv}{\xrightarrow{p}}
+\DeclareMathOperator{\dConv}{\xrightarrow{d}}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=blue,
+	urlcolor=blue
+}
+
+\addto\captionsrussian{\renewcommand{\refname}{Список использованных источников}}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\begin{center}
+			\large{Федеральное государственное автономное образовательное учреждение высшего образования <<Национальный исследовательский университет ИТМО>>}
+		\end{center}
+		
+		\vspace{15em}
+		
+		\begin{center}
+			\huge{\textbf{Расчётно-графическая работа №3}} \\
+			\large{По дисциплине <<Математическая статистика>>}
+		\end{center}
+		
+		\vspace{5em}
+		
+		\begin{flushright}
+			\Large{\textbf{Михайлов Дмитрий Андреевич}} \\
+			\Large{P3206} \\
+			\Large{368530} \\
+			\Large{\textbf{Медведев Владислав Александрович}} \\
+			\Large{P3206} \\
+			\Large{368508}
+		\end{flushright}
+		
+		\vspace{10em}
+		
+		\begin{center}
+			Санкт-Петербург \\
+			2025 год
+		\end{center}
+	\end{titlepage}
+	
+	\tableofcontents
+	\newpage
+	
+	\addcontentsline{toc}{section}{Задача №1}
+	\section*{Задача №1}
+	
+	\textbf{Условие задачи.}
+	
+	Для каждой проблемы нужно провести два статистических теста, если не сказано иное, причём первый из критериев нужно реализовать самостоятельно (считать и выводить значение статистики, критическое значение, p-value), в качестве второго можно воспользоваться готовой реализацией. Также нужно отдельно указывать, как формализуются $H_0$ и $H_1$ для выбранных тестов. Уровень значимости выбираете сами.
+	
+	\textbf{Вариант 1}
+	
+	В файле \href{https://drive.google.com/file/d/1cx0pshptDSVmaWLJCBGS9jIIJ2g-VRgT/view}{kc\_house\_data.csv} приведены данные о цене на недвижимость где-то в окрестности Сиэтла.
+	
+	\begin{enumerate}
+		\item Предположите с каким вероятностным законом распределена цена. С помощью статистического теста подтвердите/опровергните это предположение (первый тест - критерий согласия Колмогорова, если распределение абсолютно непрерывное, либо критерий согласия Пирсона хи-квадрат, если распределение дискретное).
+		
+		\item Верно ли, что цена на старый и новый фонд распределена одинаково (порог возраста выбирайте сами) (первый тест - критерий однородности Смирнова или хи-квадрат, или f-тест + t-тест)?
+		
+		\item Верно ли, что при увеличении \textquotedblleft жилищной площади\textquotedblright 	растёт и цена (первый тест - критерий на один из коэффициентов корреляции)?
+	\end{enumerate}
+	
+	\textbf{Решение.}
+	
+	Решение представлено на языке Python.
+	\vspace*{1em}
+	\newpage
+	
+	\addcontentsline{toc}{section}{Приложения}
+	\section*{Приложения}
+	
+	\subsection*{Задача №1}
+	
+	Ссылка на исходник с кодом программы, решающей эту задачу на языке Python. \cite{TaskNumber1}
+	\newpage
+	
+	\addcontentsline{toc}{section}{Список использованных источников}
+	\begin{thebibliography}{99}
+		\bibitem{TaskNumber1}
+		Задача №1. \textit{URL}: \href{https://colab.research.google.com/drive/1ViTlo3eksmFZN0RmQYRjO1QAUtpfM8Ru?usp=sharing}{Исходник с кодом, решающий задачу №1.}
+	\end{thebibliography}
+	
+\end{document}
