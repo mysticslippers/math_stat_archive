@@ -173,6 +173,24 @@
         \ MSE(\hat{\sigma}^2) = \frac{2\sigma^4}{n}
     \end{cases}
 \end{gather*}
+
+Информация Фишера $ I(\theta) $ определяется как:  $I(\theta) = -E\left[\frac{\partial^2 \ell(\theta)}{\partial \theta^2}\right]$.
+
+Для нормального распределения:
+\begin{gather*}
+	\begin{cases}
+		\ I(\mu) = \frac{n}{\sigma^2} \\
+		\ I(\sigma^2) = \frac{n}{2\sigma^4}
+	\end{cases}
+\end{gather*}
+
+Тогда дисперсия оценок, определяемая через информацию Фишера:
+\begin{gather*}
+	\begin{cases}
+		\ Var(\hat{\mu}) = \frac{1}{I(\mu)} \\
+		\ Var(\hat{\sigma}^2) = \frac{1}{I(\sigma^2)}
+	\end{cases}
+\end{gather*}
 \newpage
 
 \addcontentsline{toc}{section}{Задача №3}
