@@ -1,43 +1,81 @@
-import pandas as pd
-from scipy import stats
+from math import sqrt
+
 import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+from scipy.stats import norm, kstest, anderson
 
-data = pd.read_csv("kc_house_data.csv")
+df = pd.read_csv('kc_house_data.csv')
+df.head()
 
-prices = data['price']
+prices = df["price"]
+# Построение гистограммы
+plt.figure(figsize=(10, 6))
+plt.hist(prices, bins=50)
+plt.title('Распределение цен на дома')
+plt.xlabel('Цена')
+plt.ylabel('Количество домов')
+plt.grid(True)
+plt.show()
 
-mu, std = np.mean(prices), np.std(prices)
+mu_hat = prices.mean()
+sigma_hat = prices.std(ddof=1) #несмещённое стандартное отклонение
+print(mu_hat, sigma_hat)
 
-D, p_value = stats.kstest(prices, 'norm', args=(mu, std))
+def ks_p_value(D, n, terms=100):
+    """Асимптотическая аппроксимация p-value для К-С теста"""
+    lambda_val = sqrt(n) * D
+    s = 0.0
+    for k in range(1, terms + 1):
+        s += (-1)**(k - 1) * np.exp(-2 * (k * lambda_val)**2)
+    return 2 * s
+
+# Эмпирическая и теоретическая CDF
+prices_sorted = np.sort(prices)
+n = len(prices_sorted)
+
+empirical_cdf = np.arange(1, n + 1) / n
+theoretical_cdf = norm.cdf(prices_sorted, loc=mu_hat, scale=sigma_hat)
+
+# Статистика критерия
+D_statistic = np.max(np.abs(empirical_cdf - theoretical_cdf))
 
 alpha = 0.05
+# Критическое значение (табличное для alpha = 0.05)
+D_critical = 1.36 / sqrt(n)
 
-critical_value = stats.norm.ppf(1 - alpha/2)
+# Вычисляем  p-value
+p_value = ks_p_value(D_statistic, n)
 
-print(f"Статистика теста Колмогорова: {D}")
-print(f"p-value: {p_value}")
-print(f"Критическое значение: {critical_value}\n")
 
-shapiro_stat, shapiro_pvalue = stats.shapiro(prices)
+# Вывод
+print(f"Оценка параметров: mu = {mu_hat:.2f}, sigma = {sigma_hat:.2f}")
+print(f"Статистика D = {D_statistic:.4f}")
+print(f"Критическое значение D_crit (alpha={alpha}) = {D_critical:.4f}")
+print(f"p-value (аппроксимация) ≈ {p_value:.6f}")
 
-print(f"Статистика теста Шапиро: {shapiro_stat}")
-print(f"p-value для теста Шапиро: {shapiro_pvalue}\n")
-
-if p_value < alpha:
-    print("Результаты теста Колмогорова:")
-    print("p-value меньше уровня значимости. Мы отвергаем нулевую гипотезу о нормальности распределения.\n")
+if D_statistic > D_critical:
+    print("H0 отвергается: распределение цен не нормальное.")
 else:
-    print("Результаты теста Колмогорова:")
-    print("p-value больше или равно уровню значимости. У нас нет оснований отвергать нулевую гипотезу о нормальности распределения.\n")
+    print("H0 не отвергается: нормальность распределения допустима.")
 
-if shapiro_pvalue < alpha:
-    print("Результаты теста Шапиро-Уилка:")
-    print("p-value меньше уровня значимости. Мы отвергаем нулевую гипотезу о нормальности распределения.\n")
-else:
-    print("Результаты теста Шапиро-Уилк:")
-    print("p-value больше или равно уровню значимости. У нас нет оснований отвергать нулевую гипотезу о нормальности распределения.\n")
+print("Проверим scipy: ")
+statistic, p_value = kstest(prices, 'norm', args=(mu_hat, sigma_hat))
 
-if p_value < alpha or shapiro_pvalue < alpha:
-    print("В целом, данные, судя по обоим тестам, не являются нормально распределенными.")
-else:
-    print("В целом, данные, судя по обоим тестам, могут быть нормально распределены.")
+# Вывод результатов
+print(f"KS-статистика: {statistic:.4f}")
+print(f"p-value: {p_value:.6f}")
+
+# Критерий Андерсона-Дарлинга для нормального распределения с значения
+result = anderson(prices, dist='norm')
+
+print("Статистика теста A²:", result.statistic)
+print("Критические значения:", result.critical_values)
+print("Уровни значимости:", result.significance_level)
+
+# Интерпретация
+for sl, cv in zip(result.significance_level, result.critical_values):
+    if result.statistic < cv:
+        print(f"На уровне значимости {sl}%: гипотеза о нормальности НЕ отвергается")
+    else:
+        print(f"На уровне значимости {sl}%: гипотеза о нормальности ОТВЕРГАЕТСЯ")
